@@ -31,7 +31,12 @@ defmodule Cainophile.Adapters.Postgres.EpgsqlImplementation do
             'proto_version \'1\', publication_names \'#{publication_names}\''
           )
 
-        {:ok, %State{config: config, connection: epgsql_pid}}
+        {:ok,
+         %State{
+           config: config,
+           connection: epgsql_pid,
+           subscribers: Keyword.get(config, :subscribers, [])
+         }}
 
       {:error, reason} ->
         {:stop, reason}
